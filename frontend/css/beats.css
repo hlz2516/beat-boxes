@@ -1,0 +1,52 @@
+.kick-container {
+  border: 1px solid black;
+  width: 36rem;
+  height: 36rem;
+  display: grid;
+  margin: 60px auto;
+  grid-template-columns: 12rem 12rem 12rem;
+  grid-template-rows: 12rem 12rem 12rem;
+}
+
+.arrow-swap {
+  position: absolute;
+  left: 0.3rem;
+  bottom: 0.5rem;
+  cursor: pointer;
+  font-size: 12px;
+}
+.sound-swap {
+  position: absolute;
+  right: 0.3rem;
+  bottom: 0.5rem;
+  cursor: pointer;
+  font-size: 12px;
+}
+.swap-container {
+  box-sizing: border-box;
+  width: 15rem;
+  height: 30rem;
+  border: 1px solid black;
+  border-radius: 2px;
+  padding: 0 1rem;
+  position: absolute;
+  background: white;
+  z-index: 10;
+  display: none;
+  overflow: auto;
+}
+
+.sounds-container {
+  box-sizing: border-box;
+  width: 15rem;
+  height: 30rem;
+  border: 1px solid black;
+  border-radius: 2px;
+  padding: 0 1rem;
+  position: absolute;
+  background: white;
+  z-index: 10;
+  display: block;
+  overflow: auto;
+  display: none;
+}

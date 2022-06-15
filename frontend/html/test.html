@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/public.css">
+    <style>
+        #parent {
+            width: 900px;
+            height: 200px;
+            background: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div>
+
+    </div>
+    <!-- <script src="./js/public.js" type="module"></script> -->
+    <script type="module">
+        import * as pub from './js/public.js';
+
+        var box = document.querySelector('div');
+        new pub.PlayBox(box,'1','./audios/14in_Rim_2.wav','Rim',{
+            'width':'100px',
+            'height':'100px'
+        });
+        // window.fitText(box,1)
+    </script>
+</body>
+</html>

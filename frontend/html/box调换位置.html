@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            border: 1px solid black;
+            width: 500px;
+            height: 600px;
+            display: grid;
+            margin:auto;
+            grid-template-columns: 150px 150px 150px;
+            grid-template-rows: 150px 150px 150px;
+        }
+
+        .container div{
+            background-color: yellowgreen;
+            /* border: 1px solid red; */
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>7</div>
+        <div>8</div>
+        <div>9</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+    </div>
+
+    <script>
+        //让用户右击一个box，再右击一个box，会弹出一个提示框，询问是否进行交换，点击“是”后进行交换，“否”的话不交换
+        var choosed = null;
+
+        var boxes = document.querySelectorAll('.container div');
+        boxes.forEach(function (box) {  
+            box.addEventListener('dblclick',function (event) {  
+                this.style.border = '2px solid red';
+                if (choosed != null) {
+                    if(choosed === this){
+                        choosed.style.border = '';
+                        choosed = null;
+                        return;
+                    }
+                    let res = confirm('是否调换位置？');
+                    if (res === true) {
+                        //调换位置
+                        // console.log(this.parentNode);
+                        swapNode(choosed,this);
+                    }
+                    //把两个box的border去掉，choosed置空
+                    choosed.style.border= '';
+                    this.style.border = '';
+                    choosed = null;
+                }else{
+                    choosed = this;
+                }
+            })
+        })
+
+        function swapNode(a,b) {  
+            let nextNode = b.nextSibling;
+            b.parentNode.insertBefore(b,a);
+            b.parentNode.insertBefore(a,nextNode);
+        }
+    </script>
+</body>
+</html>

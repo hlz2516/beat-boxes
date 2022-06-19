@@ -9,7 +9,7 @@ var soundUl = document.querySelector(".sounds-container ul");
 var tempListen = document.getElementById("temp-listen");
 
 var beatBoxs = [
-  new PlayBox(allBoxs[0],7,'./audios/707_Kick_2.wav','Kick1'),
+  new PlayBox(allBoxs[0],7, './audios/707_Kick_2.wav','Kick1'),
   new PlayBox(allBoxs[1],8,'./audios/808_CH_2.wav','CH'),
   new PlayBox(allBoxs[2],9,'./audios/14in_Rim_2.wav','Rim'),
   new PlayBox(allBoxs[3],4,'./audios/special/MA_Croak_Kick.wav','Spec1'),

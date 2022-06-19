@@ -8,12 +8,17 @@
   grid-template-rows: 12rem 12rem 12rem;
 }
 
+.kick-container > div{
+  position: relative;
+}
+
 .arrow-swap {
   position: absolute;
   left: 0.3rem;
   bottom: 0.5rem;
   cursor: pointer;
   font-size: 12px;
+  z-index: 10;
 }
 .sound-swap {
   position: absolute;
@@ -21,6 +26,7 @@
   bottom: 0.5rem;
   cursor: pointer;
   font-size: 12px;
+  z-index: 10;
 }
 .swap-container {
   box-sizing: border-box;

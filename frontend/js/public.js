@@ -20,18 +20,20 @@ export function boxInfo(box) {
  * @param {*obj的样式,以对象形式传入} style 
  */
 export function PlayBox(obj,key,audioSrc,instru,style) {  
-    //当需要通过dom元素obj获取其playbox上的一些属性时，可以通过_playbox查找
-    obj._playbox = this;  
     this.box = obj;
-    this.key = key;
-    this.audioSrc = audioSrc;
+    this.key = (key == null || key == undefined) ? '' : key;
+    this.audioSrc = (audioSrc == null || audioSrc == undefined) ? '' : audioSrc;
+    //创建一个div，这个div用于适应外层的布局，如float:left，display:inline等
+    this.main = document.createElement('div');
+    this.box.append(this.main);
+
     //显示在左上角的按键缩写
-    this.keyName = key.length > 2 ? key.substring(0,2):key;
+    this.keyName = this.key.length > 2 ? this.key.substring(0,2):this.key;
     this.instru = (instru == null || instru == undefined) ? '' :instru;
     //给box添加自定义属性data-key，说不定以后还有用
     this.box.dataset.key = this.key;
-    //给box添加样式
-    this.box.classList.add('play-box');
+    //给内部添加样式
+    this.main.classList.add('play-box');
     for (const k in style) {
         if (Object.hasOwnProperty.call(obj.style, k)) {
             obj.style[k] = style[k];
@@ -41,16 +43,17 @@ export function PlayBox(obj,key,audioSrc,instru,style) {
     this.showInstru = document.createElement('div');
     this.showInstru.classList.add('beat-source');
     this.showInstru.innerHTML = `<strong>${this.instru}</strong>`;
-    this.box.append(this.showInstru);
+    this.main.append(this.showInstru);
     window.fitText(this.showInstru,0.5);
     //box内部左上角需标明是哪个按键
     this.showKey = document.createElement('p');
     this.showKey.classList.add('number');
     this.showKey.innerText = this.keyName;
-    this.box.append(this.showKey);
+    this.main.append(this.showKey);
     //给box添加功能
     this.audio = document.createElement('audio');
     this.audio.src = this.audioSrc;
+    this.audio.load();
 
     this.isPlaying = false;
     document.addEventListener('keydown',(event)=> {  
@@ -58,21 +61,27 @@ export function PlayBox(obj,key,audioSrc,instru,style) {
             if (this.isPlaying) {
                 return
             }
+            if (this.audioSrc == '') {
+                return
+            }
             this.audio.currentTime = 0;
             this.audio.play();
-            this.box.classList.add('playing');
+            this.main.classList.add('playing');
             this.isPlaying = true;
         }
     })
     document.addEventListener('keyup',(event)=>{
         if (event.key == this.box.dataset.key) {
             this.audio.pause();
-            this.box.classList.remove('playing');
+            this.main.classList.remove('playing');
             this.isPlaying = false;
         }
     })
     //给圆形label添加一个点击播放事件
     this.showInstru.addEventListener('click',(e) => {  
+        if (this.audioSrc == '') {
+            return
+        }
         this.audio.currentTime = 0;
         this.audio.play();
     })
@@ -81,6 +90,8 @@ export function PlayBox(obj,key,audioSrc,instru,style) {
 PlayBox.prototype.setAudioSrc = function (audioSrc) {  
     this.audioSrc = audioSrc;
     this.audio.src = audioSrc;
+    console.log(this.audio.src);
+    this.audio.load();
 }
 
 PlayBox.prototype.setKey = function (key) {  
@@ -91,4 +102,16 @@ PlayBox.prototype.setKey = function (key) {
 PlayBox.prototype.setInstru = function (instru) {  
     this.instru = instru;
     this.showInstru.innerHTML = `<strong>${this.instru}</strong>`;
+}
+
+export function checkUrl(url){
+    return url
+        .replace(/\%/g,"%25")
+        .replace(/\ /g,"%20")
+        .replace(/\+/g,"%2B")
+        .replace(/\//g,"%2F")
+        .replace(/\?/g,"%3F")
+        .replace(/\&/g,"%26")
+        .replace(/\=/g,"%3D")
+        .replace(/\#/g,"%23");
 }

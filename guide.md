@@ -74,3 +74,12 @@ import "./jquery-3.5.1.js"
 这个封装还有点复杂，我是这样想的，在构造一个弹奏盒子后，其内部产生一个audio,并给document增加一个监听器监听设置的按键，这样的话，改动还是蛮多的，原来的思路是当有键按下时，程序会去在文档中找到那个audio元素然后play，现在的话，就省掉了搜索的过程直接play，理论上会比原来的快一点。  
 然后封装过程中遇到了一个棘手的问题，我在一个div中写了一些文字，这个div的大小是变化的，我想让文字大小随着div大小的变化而变化，怎么做？  
 目前是找了一个第三方库解决了。  
+
+然后我今天开始写主乐器部分的布局，当我把playbox放进布局中时，我发现出现了问题，playbox并没有放在我想要放的位置上，后来看了下，是因为我在布局里给每个box设置的display是inline-block，而box在类里给其添加的默认样式是flex，这就导致了playbox内部的布局也乱了。  
+总体来说，还是当时在设计时，没有考虑完善，现在我又要开始改进设计了，让其在不同的display下，其内部布局不改变。  
+想到了一个方法，给playbox套一层div，这个div就专门用于适应外部的布局，如float或者display等等  
+又发现了一个问题，当字符串中含有'#'时，这段字符串在网络传输后，#后面的字符都被截断，导致404  
+这个问题通过checkUrl函数解决了，在http网络传输时，url当中存在一些特殊字符，如'#'，要想对其进行转义，无法用'\'因为它是在网络传输时才会有的特殊字符，规定用%23来表示'#'。  
+又发现一个问题，express框架写一个post方法，如果要使得body中的内容可以解析，需要引入bodyParser，然后如果body的内容形式是json格式的字符串，还必须写上app.use(bodyParser.urlencoded({ extended: true }))这行代码，这样搞以后在edge上是都OK的，但是chrome上在切换某些组时会报错：  
+Cross-Origin Read Blocking (CORB) blocked cross-origin response <URL> with MIME type application/json. See <URL> for more details  
+目前还不清楚原因，希望哪位大佬来解答下
